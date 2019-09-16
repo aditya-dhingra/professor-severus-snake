@@ -25,6 +25,7 @@
     "node": ">=8.x"
   },
   "scripts": {
-    "start": "cross-env PORT=5000 nodemon index.js"
+    "start": "cross-env PORT=5000 nodemon index.js",
+    "h-debug": "heroku ps:forward 9229 -a professor-severus-snake"
   }
 }

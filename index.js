@@ -57,9 +57,7 @@ function getCurrentLocation(gameObject)
 app.post('/move', (request, response) => {
   // NOTE: Do something here to generate your move
   console.log(request); // Check heroku logs
-
-
-
+  console.log(getCurrentLocation(request.body));
   // Response data
   const data = {
     move: 'down', // one of: ['up','down','left','right']
