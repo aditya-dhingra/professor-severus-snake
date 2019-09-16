@@ -74,12 +74,12 @@ function generateIllegalBlocks(gameObject) {
     illegalBlocks[[x,y]] = -1;
   }
   // Our Snake
-  // for(var i = 0; i < ourLength; i++) {
-  //   var head = ourSnake[i];
-  //   head.x += 1;
-  //   head.y += 1;
-  //   illegalBlocks[[head.x, head.y]] = -1;
-  // }
+  for(var i = 0; i < ourLength; i++) {
+    var head = ourSnake[i];
+    head.x += 1;
+    head.y += 1;
+    illegalBlocks[[head.x, head.y]] = -1;
+  }
   // Other Snakes
   snakes.forEach(function (snake) {
     if (snake.name !== 'sagargandhi33 / professor-severus-snake') {
