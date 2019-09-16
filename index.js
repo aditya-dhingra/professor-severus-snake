@@ -74,7 +74,7 @@ function generateIllegalBlocks(gameObject) {
     illegalBlocks[[x,y]] = -1;
   }
   // Our Snake
-  for(var i = 0; i < ourLength; i++) {
+  for(var i = 1; i < ourLength; i++) {
     var head = ourSnake[i];
     head.x += 1;
     head.y += 1;
