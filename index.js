@@ -62,23 +62,23 @@ function generateIllegalBlocks(gameObject) {
     ourLength = ourSnake.length;
   // Borders and Corners
   for(x = 0, y = 0; x <= WIDTH+1; x++) {
-    illegalBlocks[[x,y]] = -1;
+    illegalBlocks[[x,y]] = true;
   }
   for(x = 0, y = 0; y <= HEIGHT+1; y++) {
-    illegalBlocks[[x,y]] = -1;
+    illegalBlocks[[x,y]] = true;
   }
   for(x = 0, y = HEIGHT+1; x <= WIDTH+1; x++) {
-    illegalBlocks[[x,y]] = -1;
+    illegalBlocks[[x,y]] = true;
   }
   for(x = WIDTH+1, y = 0; y <= HEIGHT+1; y++) {
-    illegalBlocks[[x,y]] = -1;
+    illegalBlocks[[x,y]] = true;
   }
   // Our Snake
   for(var i = 0; i < ourLength; i++) {
     var head = ourSnake[i];
     head.x += 1;
     head.y += 1;
-    illegalBlocks[[head.x, head.y]] = -1;
+    illegalBlocks[[head.x, head.y]] = true;
   }
   // Other Snakes
   snakes.forEach(function (snake) {
@@ -88,16 +88,16 @@ function generateIllegalBlocks(gameObject) {
         var head = snake.body[0];
         head.x += 1;
         head.y += 1;
-        illegalBlocks[[head.x + 1, head.y]] = -1;
-        illegalBlocks[[head.x - 1, head.y]] = -1;
-        illegalBlocks[[head.x, head.y + 1]] = -1;
-        illegalBlocks[[head.x, head.y - 1]] = -1;
+        illegalBlocks[[head.x + 1, head.y]] = true;
+        illegalBlocks[[head.x - 1, head.y]] = true;
+        illegalBlocks[[head.x, head.y + 1]] = true;
+        illegalBlocks[[head.x, head.y - 1]] = true;
       }
       for(var i = 1; i < snakeLength; i++) {
         var head = snake.body[i];
         head.x += 1;
         head.y += 1;
-        illegalBlocks[[head.x, head.y]] = -1;
+        illegalBlocks[[head.x, head.y]] = true;
       }
     }
   });
@@ -112,16 +112,16 @@ function nextMove(gameObject) {
   var head = loc[0];
   head.x += 1;
   head.y += 1;
-  if(illegalBlocks[[head.x+1,head.y]]){
+  if(!illegalBlocks[[head.x+1,head.y]]){
     return "right";
   }
-  if (illegalBlocks[[head.x,head.y+1]]){
+  if (!illegalBlocks[[head.x,head.y+1]]){
     return "up";
   }
-  if (illegalBlocks[[head.x-1,head.y]]){
+  if (!illegalBlocks[[head.x-1,head.y]]){
     return "left";
   }
-  if (illegalBlocks[[head.x,head.y-1]]){
+  if (!illegalBlocks[[head.x,head.y-1]]){
     return "down";
   }
 }
