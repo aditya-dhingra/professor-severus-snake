@@ -82,7 +82,7 @@ function generateIllegalBlocks(gameObject) {
   // }
   // Other Snakes
   snakes.forEach(function (snake) {
-    if (snake.name !== 'professor-severus-snake') {
+    if (snake.name !== 'sagargandhi33 / professor-severus-snake') {
       var snakeLength = snake.body.length;
       if(ourLength <= snakeLength) {
         var head = snake.body[0];
