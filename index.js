@@ -76,8 +76,6 @@ function generateIllegalBlocks(gameObject) {
   // Our Snake
   for(var i = 0; i < ourLength; i++) {
     var head = ourSnake[i];
-    head.x += 1;
-    head.y += 1;
     illegalBlocks[[head.x, head.y]] = true;
   }
   // Other Snakes
@@ -86,8 +84,6 @@ function generateIllegalBlocks(gameObject) {
       var snakeLength = snake.body.length;
       if(ourLength <= snakeLength) {
         var head = snake.body[0];
-        head.x += 1;
-        head.y += 1;
         illegalBlocks[[head.x + 1, head.y]] = true;
         illegalBlocks[[head.x - 1, head.y]] = true;
         illegalBlocks[[head.x, head.y + 1]] = true;
@@ -95,8 +91,6 @@ function generateIllegalBlocks(gameObject) {
       }
       for(var i = 1; i < snakeLength; i++) {
         var head = snake.body[i];
-        head.x += 1;
-        head.y += 1;
         illegalBlocks[[head.x, head.y]] = true;
       }
     }
@@ -110,8 +104,6 @@ function nextMove(gameObject) {
   var illegalBlocks = generateIllegalBlocks(gameObject);
 
   var head = loc[0];
-  head.x += 1;
-  head.y += 1;
   if(!illegalBlocks[[head.x+1,head.y]]){
     return "right";
   }
@@ -131,8 +123,20 @@ app.post('/move', (request, response) => {
   // NOTE: Do something here to generate your move
   console.log(request); // Check heroku logs
   var gameObject = request.body;
-  var illegalBlocks = generateIllegalBlocks(gameObject);
-  console.log(illegalBlocks);
+  // update according to our grid
+  gameObject.board.snakes.forEach(function (snake) {
+    snake.body.forEach(function (sbody) {
+      sbody.x += 1;
+      sbody.y += 1;
+    })
+  });
+  gameObject.board.you.body.forEach(function (sbody) {
+    sbody.x += 1;
+    sbody.y += 1;
+  });
+
+  console.log(gameObject);
+
   // Response data
   const data = {
     move: nextMove(gameObject) || "up", // one of: ['up','down','left','right']
