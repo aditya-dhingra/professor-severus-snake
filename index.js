@@ -53,6 +53,11 @@ function getCurrentLocation(gameObject)
 {
     return gameObject.you.body;
 }
+
+function nextMove(gameObject) {
+  var loc = getCurrentLocation(gameObject);
+}
+
 // Handle POST request to '/move'
 app.post('/move', (request, response) => {
   // NOTE: Do something here to generate your move
