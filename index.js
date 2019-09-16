@@ -38,6 +38,7 @@ app.post('/start', (request, response) => {
 // Handle POST request to '/move'
 app.post('/move', (request, response) => {
   // NOTE: Do something here to generate your move
+  console.log(request); // Check heroku logs
 
   // Response data
   const data = {
