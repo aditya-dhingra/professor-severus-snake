@@ -57,7 +57,9 @@ function getCurrentLocation(gameObject)
 function generateIllegalBlocks(gameObject) {
   var illegalBlocks = {};
   var x, y,
-    snakes = getSnakes(gameObject);
+    snakes = getSnakes(gameObject),
+    ourSnake = getCurrentLocation(gameObject),
+    ourLength = ourSnake.length;
   // Borders and Corners
   for(x = 0, y = 0; x <= WIDTH; x++) {
     illegalBlocks[[x,y]] = -1;
@@ -71,15 +73,31 @@ function generateIllegalBlocks(gameObject) {
   for(x = WIDTH, y = 0; y <= HEIGHT; y++) {
     illegalBlocks[[x,y]] = -1;
   }
-  // Other Snakes
-  snakes.forEach(function (snake) {
-    var head = snake.body[0];
+  // Our Snake
+  for(var i = 0; i < ourLength; i++) {
+    var head = ourSnake[i];
     head.x += 1;
     head.y += 1;
-    illegalBlocks[[head.x + 1, head.y]] = -1;
-    illegalBlocks[[head.x - 1, head.y]] = -1;
-    illegalBlocks[[head.x, head.y + 1]] = -1;
-    illegalBlocks[[head.x, head.y - 1]] = -1;
+    illegalBlocks[[head.x, head.y]] = -1;
+  }
+  // Other Snakes
+  snakes.forEach(function (snake) {
+    var snakeLength = snake.body.length;
+    if(ourLength <= snakeLength) {
+      var head = snake.body[0];
+      head.x += 1;
+      head.y += 1;
+      illegalBlocks[[head.x + 1, head.y]] = -1;
+      illegalBlocks[[head.x - 1, head.y]] = -1;
+      illegalBlocks[[head.x, head.y + 1]] = -1;
+      illegalBlocks[[head.x, head.y - 1]] = -1;
+    }
+    for(var i = 1; i < snakeLength; i++) {
+      var head = snake.body[i];
+      head.x += 1;
+      head.y += 1;
+      illegalBlocks[[head.x, head.y]] = -1;
+    }
   });
 
   return illegalBlocks;
@@ -87,6 +105,23 @@ function generateIllegalBlocks(gameObject) {
 
 function nextMove(gameObject) {
   var loc = getCurrentLocation(gameObject);
+  var illegalBlocks = generateIllegalBlocks(gameObject);
+
+  var head = loc[0];
+  head.x += 1;
+  head.y += 1;
+  if(illegalBlocks[[head.x+1,head.y]]){
+    return "right";
+  }
+  if (illegalBlocks[[head.x,head.y+1]]){
+    return "up";
+  }
+  if (illegalBlocks[[head.x-1,head.y]]){
+    return "left";
+  }
+  if (illegalBlocks[[head.x,head.y-1]]){
+    return "down";
+  }
 }
 
 // Handle POST request to '/move'
@@ -98,7 +133,7 @@ app.post('/move', (request, response) => {
   console.log(illegalBlocks);
   // Response data
   const data = {
-    move: 'down', // one of: ['up','down','left','right']
+    move: nextMove(gameObject) || "up", // one of: ['up','down','left','right']
   }
 
   return response.json(data)
