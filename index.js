@@ -61,25 +61,25 @@ function generateIllegalBlocks(gameObject) {
     ourSnake = getCurrentLocation(gameObject),
     ourLength = ourSnake.length;
   // Borders and Corners
-  for(x = 0, y = 0; x <= WIDTH; x++) {
+  for(x = 0, y = 0; x <= WIDTH+1; x++) {
     illegalBlocks[[x,y]] = -1;
   }
-  for(x = 0, y = 0; y <= HEIGHT; y++) {
+  for(x = 0, y = 0; y <= HEIGHT+1; y++) {
     illegalBlocks[[x,y]] = -1;
   }
-  for(x = 0, y = HEIGHT; x <= WIDTH; x++) {
+  for(x = 0, y = HEIGHT+1; x <= WIDTH+1; x++) {
     illegalBlocks[[x,y]] = -1;
   }
-  for(x = WIDTH, y = 0; y <= HEIGHT; y++) {
+  for(x = WIDTH+1, y = 0; y <= HEIGHT+1; y++) {
     illegalBlocks[[x,y]] = -1;
   }
   // Our Snake
-  for(var i = 0; i < ourLength; i++) {
-    var head = ourSnake[i];
-    head.x += 1;
-    head.y += 1;
-    illegalBlocks[[head.x, head.y]] = -1;
-  }
+  // for(var i = 0; i < ourLength; i++) {
+  //   var head = ourSnake[i];
+  //   head.x += 1;
+  //   head.y += 1;
+  //   illegalBlocks[[head.x, head.y]] = -1;
+  // }
   // Other Snakes
   snakes.forEach(function (snake) {
     if (snake.name !== 'professor-severus-snake') {
