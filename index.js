@@ -54,6 +54,35 @@ function getCurrentLocation(gameObject)
     return gameObject.you.body;
 }
 
+function generateIllegalBlocks(gameObject) {
+  var illegalBlocks = {};
+  var x, y,
+    snakes = getSnakes(gameObject);
+  // Borders and Corners
+  for(x = 0, y = 0; x <= WIDTH; x++) {
+    illegalBlocks[[x,y]] = -1;
+  }
+  for(x = 0, y = 0; y <= HEIGHT; y++) {
+    illegalBlocks[[x,y]] = -1;
+  }
+  for(x = 0, y = HEIGHT; x <= WIDTH; x++) {
+    illegalBlocks[[x,y]] = -1;
+  }
+  for(x = WIDTH, y = 0; y <= HEIGHT; y++) {
+    illegalBlocks[[x,y]] = -1;
+  }
+  // Other Snakes
+  snakes.forEach(function (snake) {
+    var head = snake.body[0];
+    illegalBlocks[[head.x + 1, head.y]] = -1;
+    illegalBlocks[[head.x - 1, head.y]] = -1;
+    illegalBlocks[[head.x, head.y + 1]] = -1;
+    illegalBlocks[[head.x, head.y - 1]] = -1;
+  });
+
+  return illegalBlocks;
+}
+
 function nextMove(gameObject) {
   var loc = getCurrentLocation(gameObject);
 }
@@ -63,6 +92,7 @@ app.post('/move', (request, response) => {
   // NOTE: Do something here to generate your move
   console.log(request); // Check heroku logs
   console.log(getCurrentLocation(request.body));
+  console.log(generateIllegalBlocks(request.body));
   // Response data
   const data = {
     move: 'down', // one of: ['up','down','left','right']
