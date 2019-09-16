@@ -118,12 +118,12 @@ function nextMove(gameObject) {
   if (illegalBlocks[[head.x,head.y+1]]){
     return "up";
   }
-  if (illegalBlocks[[head.x-1,head.y]]){
-    return "left";
-  }
-  if (illegalBlocks[[head.x,head.y-1]]){
-    return "down";
-  }
+  // if (illegalBlocks[[head.x-1,head.y]]){
+  //   return "left";
+  // }
+  // if (illegalBlocks[[head.x,head.y-1]]){
+  //   return "down";
+  // }
 }
 
 // Handle POST request to '/move'
